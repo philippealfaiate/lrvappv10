@@ -14,6 +14,8 @@ class PizzaSeeder extends Seeder
     {
         $this->call([
             \Database\Seeders\Pizza\ProductSeeder::class,
+            \Database\Seeders\Pizza\AllergenSeeder::class,
+            \Database\Seeders\Pizza\ComposerSeeder::class,
         ]);
     }
 }

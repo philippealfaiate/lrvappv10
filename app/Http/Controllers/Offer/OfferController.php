@@ -54,8 +54,6 @@ class OfferController extends Controller
     public function show($product, Offer $offer)
     {
         $resource = $offer;
-
-        $resource->setAttribute('descrption', $offer->description->value?:NULL);
         
         $resource->setAttribute('actions', [
             [
@@ -74,9 +72,9 @@ class OfferController extends Controller
             'resource' => $resource,
             'relationships' => [
                 'description' => [
-                        'name' => 'Description',
-                        'value' => $resource->description->value,
-                        'route' => route('products.descriptions.show', [$resource->id, $resource->description->id]),
+                    'name' => 'Description',
+                    'value' => 'value',
+                    'route' => route('products.descriptions.show', [$resource->id, $resource->description->id??0]),
                 ],
                 'allergens' => [
                     'name' => 'Allergens',

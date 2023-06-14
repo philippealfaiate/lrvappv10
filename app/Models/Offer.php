@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Offer extends Model
 {
@@ -48,16 +49,16 @@ class Offer extends Model
      */
     function siblings() : HasMany
     {
-        return $this->hasMany(Offer::class, 'product_id');    
+        return $this->hasMany(Offer::class, 'product_id', 'product_id');
     }
     
     function description() : HasOneThrough
     {
-        return $this->hasOneThrough(Description::class, Product::class, 'id');
+        return $this->hasOneThrough(Description::class, Product::class, 'id')->withDefault();
     }
 
-    function allergens() : HasOneThrough
+    function allergens() : HasManyThrough
     {
-        return $this->hasOneThrough(Allergen::class, Product::class, 'id');
+        return $this->hasManyThrough(Allergen::class, Product::class, 'id');
     }
 }

@@ -1,0 +1,1 @@
+{!! $data->value ?: '<span class="text-sm text-slate-400">(null)</span>' !!}

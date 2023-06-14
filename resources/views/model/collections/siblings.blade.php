@@ -1,0 +1,1 @@
+@include('model.collections.offers', compact('data'))

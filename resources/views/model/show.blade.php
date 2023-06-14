@@ -18,16 +18,16 @@
                                         @if ($resource->$column instanceof \Illuminate\Database\Eloquent\Collection)
                                             <a href="{{ $relationships[$column]['route'] }}" class="underline">collection</a>
                                         @elseif ($resource->$column instanceof \Illuminate\Database\Eloquent\Model)
-                                            <a href="{{ $relationships[$column]['route'] }}" class="underline">model</a>
+                                            <a href="{{ $relationships[$column]['route'] }}" class="underline">resource</a>
                                         @else
                                             {{ gettype($resource->$column) }}
                                         @endif
                                     </td>
                                     <td class="text-base text-slate-800 px-6 py-3">
                                         @if ($resource->$column instanceof \Illuminate\Database\Eloquent\Collection)
-                                            {{ $relationships[$column]['value'] }}
+                                            @includeFirst(['model.collections.' . $column, 'model.collections.collection'], ['data' => $resource->$column])
                                         @elseif ($resource->$column instanceof \Illuminate\Database\Eloquent\Model)
-                                            {{ $relationships[$column]['value'] }}
+                                            @includeFirst(['model.resources.' . $column, 'model.resources.resource'], ['data' => $resource->$column])
                                         @else
                                             {{ $resource->$column }}
                                         @endif

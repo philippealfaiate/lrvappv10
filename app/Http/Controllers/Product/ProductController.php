@@ -67,16 +67,20 @@ class ProductController extends Controller
             'relationships' => [
                 'description' => [
                     'name' => 'Description',
-                    'value' => $resource->description ? $resource->description->value : null,
-                    'route' => $resource->description ? route('products.descriptions.show', [$resource->id, $resource->description->id]) : null,
+                    'value' => 'value',
+                    'route' => null,
                 ],
                 'allergens' => [
                     'name' => 'Allergens',
+                    'model' => $resource->allergens,
+                    'component' => null, //'model.allergens',
                     'value' => $resource->allergens()->count(),
                     'route' => route('products.allergens.index', $resource->id),
                 ],
                 'offers' => [
                     'name' => 'Offers',
+                    'model' => $resource->offers,
+                    'component' => null, //'model.offers',
                     'value' => $resource->offers()->count(),
                     'route' => route('products.offers.index', $resource->id),
                 ],

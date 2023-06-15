@@ -16,8 +16,11 @@ class AllergenSeeder extends Seeder
     {
         \App\Models\Product::all()->map(function ($product) {
             // $allergens = fake()->optional()->randomElements(array_flip(config('mkd.allergens')), rand(1, 8));
-            $allergens = fake()->randomElements(array_flip(config('mkd.allergens')), rand(1, 8));
-            collect($allergens)->map(fn ($allergen) => $product->allergens()->create(['code' => $allergen]));
+            $allergens = fake()->randomElements(array_flip(config('mkd.allergens')), rand(4, 10));
+            collect($allergens)->map(fn ($allergen) => $product->allergens()->create([
+                'code' => $allergen,
+                'has_traces' => fake()->boolean(70),
+            ]));
         });
     }
 }

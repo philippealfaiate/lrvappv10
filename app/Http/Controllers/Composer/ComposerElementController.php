@@ -11,9 +11,27 @@ class ComposerElementController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($composer)
     {
-        //
+        $collection = ComposerElement::where('composer_id', $composer)->get();
+
+        $collection->map(function ($resource) use ($composer) {
+            return $resource
+                ->setAttribute('name', $resource->morphable->name)
+                ->setAttribute('actions', [
+                    [
+                        'label' => 'remove',
+                        'route' => null
+                    ],
+                ]);
+        });
+
+        return view('model.index', [
+            'page_title' => ComposerElement::getTableName(),
+            // 'columns' => ComposerElement::Columns([], ['morphable']),
+            'columns' => ['id', 'model_type', 'model_id', 'name'],
+            'collection' => $collection,
+        ]);
     }
 
     /**

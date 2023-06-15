@@ -14,22 +14,46 @@ class ComposerSeeder extends Seeder
      */
     public function run(): void
     {
-        Composer::factory()
-        // ->has(Product::factory()
-        //     ->count(2)
-        //     ->sequence(
-        //         ['attribute' => 'First'],
-        //         ['attribute' => 'Second'],
-        //     )
-        //     ->state(function (array $attributes, Product $product) {
-        //         return [
-        //             'name' => $product->name,
-        //         ];
-        //     })
-        // )
-        ->state([
-            'name' => 'pizza sauce'
-        ])
-        ->create();
+        // $composer = Composer::factory()
+        // ->state([
+        //     'name' => 'pizza sauce'
+        //     ])
+        // ->create();
+        
+        $this->composerCreate([
+            'name' => 'pizza sauce',
+            'type' => \App\Models\Product::class,
+        ], [
+            'sauce tomate',
+            'creme fraiche',
+        ]);
+
+
     }
+
+/*
+     * Create a new composer
+     * 
+        $this->composerCreate(
+			[
+				'name' => 'Sauces Nuggets (c)',
+				'type' => \App\Models\Product::class
+			],
+			[
+				'sauce moutarde',
+				'sauce chinoise',
+				'sauce barbecue',
+				'sauce curry',
+			]
+		);
+     */
+    private function composerCreate(array $composer, array $items)
+	{
+		$composer = \App\Models\Composer::factory()->create($composer);
+		collect($items)->map(function ($item) use ($composer) {
+			$model = $composer->type::where('name', $item)->first();
+			$model->composerElements()->save(new \App\Models\ComposerElement(['composer_id' => $composer->id]));
+		});
+	}
+
 }

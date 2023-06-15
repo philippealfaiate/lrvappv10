@@ -21,7 +21,7 @@ class AllergenFactory extends Factory
             'product_id' => Product::factory(),
             // 'code' => fake()->randomElement(config('mkd.allergens_codes')),
             'code' => 'AAA',
-            'has_traces' => fake()->boolean(.25),
+            'has_traces' => fake()->boolean(90),
         ];
     }
 }

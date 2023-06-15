@@ -61,13 +61,11 @@ class ComposerController extends Controller
 
         return view('model.show', [
             'page_title' => Composer::getTableName() . ": $resource->name",
-            'columns' => Composer::columns([], ['composer_elements']),
+            'columns' => Composer::columns([], ['composerElements']),
             'resource' => $resource,
             'relationships' => [
-                'composer_elements' => [
-                    'name' => 'Composer Elements',
-                    'value' => $resource->composerElements()->count(),
-                    'route' => route('composers.elements.show', [$resource->id, $resource->composer_elements->id]),
+                'composerElements' => [
+                    'route' => route('composers.elements.index', $resource->id),
                 ],
             ]
         ]);

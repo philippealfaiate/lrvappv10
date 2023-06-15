@@ -62,27 +62,20 @@ class ProductController extends Controller
 
         return view('model.show', [
             'page_title' => Product::getTableName() . ": $resource->name",
-            'columns' => Product::columns([], ['description', 'allergens', 'offers']),
+            'columns' => Product::columns([], ['description', 'allergens', 'offers', 'composers']),
             'resource' => $resource,
             'relationships' => [
                 'description' => [
-                    'name' => 'Description',
-                    'value' => 'value',
                     'route' => null,
                 ],
                 'allergens' => [
-                    'name' => 'Allergens',
-                    'model' => $resource->allergens,
-                    'component' => null, //'model.allergens',
-                    'value' => $resource->allergens()->count(),
                     'route' => route('products.allergens.index', $resource->id),
                 ],
                 'offers' => [
-                    'name' => 'Offers',
-                    'model' => $resource->offers,
-                    'component' => null, //'model.offers',
-                    'value' => $resource->offers()->count(),
                     'route' => route('products.offers.index', $resource->id),
+                ],
+                'composers' => [
+                    'route' => null,
                 ],
             ]
         ]);
@@ -91,17 +84,17 @@ class ProductController extends Controller
         return $product->load('offers', 'description');
     }
 
-    function myFun($resource, $relationship, $name, $value = null)
-    {
-        if (is_null($resource->$relationship))
-            return null;
+    // function myFun($resource, $relationship, $name, $value = null)
+    // {
+    //     if (is_null($resource->$relationship))
+    //         return null;
     
-        return [$relationship => [
-            'name' => $name,
-            'value' => is_null($value) ? $resource->$relationship->$value :  $resource->$relationship->count(),
-            'route' => $resource->$relationship ? route('products.descriptions.show', [$resource->id, $resource->description->id]) : null,
-        ]]; 
-    }
+    //     return [$relationship => [
+    //         'name' => $name,
+    //         'value' => is_null($value) ? $resource->$relationship->$value :  $resource->$relationship->count(),
+    //         'route' => $resource->$relationship ? route('products.descriptions.show', [$resource->id, $resource->description->id]) : null,
+    //     ]]; 
+    // }
 
     /**
      * Show the form for editing the specified resource.

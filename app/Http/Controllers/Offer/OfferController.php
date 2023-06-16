@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Offer;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\OfferResource;
 use App\Models\Offer;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\OfferResource;
 
 class OfferController extends Controller
 {
@@ -54,6 +54,11 @@ class OfferController extends Controller
     public function show($product, Offer $offer)
     {
         $resource = $offer;
+        \Illuminate\Support\Facades\DB::enableQueryLog();
+        dd(
+            $offer->composers->load('composerElements'),
+            \Illuminate\Support\Facades\DB::getQueryLog(),
+        );
         
         $resource->setAttribute('actions', [
             [
@@ -68,7 +73,7 @@ class OfferController extends Controller
 
         return view('model.show', [
             'page_title' => "Product > " . Offer::getTableName() . ": $resource->name",
-            'columns' => Offer::columns(['product_id'], ['description', 'allergens', 'siblings']),
+            'columns' => Offer::columns(['product_id'], ['description', 'allergens', 'siblings', 'composers']),
             'resource' => $resource,
             'relationships' => [
                 'description' => [
@@ -86,7 +91,11 @@ class OfferController extends Controller
                     // 'value' => $resource->siblings()->count(),
                     'value' => $resource->siblings->pluck('name_attribute')->join(', '),
                     'route' => route('products.offers.index', [$resource->id]),
-            ],
+                ],
+                'composers' => [
+                    'name' => 'Composers',
+                    'route' => null,
+                ],
             ]
         ]);
     }

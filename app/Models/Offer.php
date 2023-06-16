@@ -61,4 +61,20 @@ class Offer extends Model
     {
         return $this->hasManyThrough(Allergen::class, Product::class, 'id');
     }
+
+    function composers() : HasManyThrough
+    {
+        return $this->hasManyThrough(Composer::class, ProductComposer::class, 'product_id',
+		'id',
+		'product_id',
+		'composer_id');
+    }
+
+    function composerElements() : HasManyThrough
+    {
+        return $this->hasManyThrough(ComposerElement::class, ProductComposer::class, 'product_id',
+		'id',
+		'product_id',
+		'composer_id');
+    }
 }

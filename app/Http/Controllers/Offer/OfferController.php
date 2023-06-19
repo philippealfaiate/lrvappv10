@@ -29,7 +29,7 @@ class OfferController extends Controller
             'page_title' => "Product > " . Offer::getTableName(),
             'columns' => Offer::Columns(['product_id']),
             'collection' => $collection,
-        ]);
+        ]); 
     }
 
     /**
@@ -54,11 +54,11 @@ class OfferController extends Controller
     public function show($product, Offer $offer)
     {
         $resource = $offer;
-        \Illuminate\Support\Facades\DB::enableQueryLog();
-        dd(
-            $offer->composers->load('composerElements'),
-            \Illuminate\Support\Facades\DB::getQueryLog(),
-        );
+        // \Illuminate\Support\Facades\DB::enableQueryLog();
+        // dd(
+        //     $offer->composers->load('composerElements'),
+        //     \Illuminate\Support\Facades\DB::getQueryLog(),
+        // );
         
         $resource->setAttribute('actions', [
             [
@@ -94,7 +94,7 @@ class OfferController extends Controller
                 ],
                 'composers' => [
                     'name' => 'Composers',
-                    'route' => null,
+                    'route' => route('products.offers.composers.index', [$product, $resource->id]),
                 ],
             ]
         ]);

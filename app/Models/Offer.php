@@ -6,6 +6,7 @@ use App\Models\Helpers\Columns;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -64,7 +65,8 @@ class Offer extends Model
 
     function composers() : HasManyThrough
     {
-        return $this->hasManyThrough(Composer::class, ProductComposer::class, 'product_id',
+        return $this->hasManyThrough(Composer::class, ProductComposer::class,
+        'product_id',
 		'id',
 		'product_id',
 		'composer_id');
@@ -72,9 +74,15 @@ class Offer extends Model
 
     function composerElements() : HasManyThrough
     {
-        return $this->hasManyThrough(ComposerElement::class, ProductComposer::class, 'product_id',
-		'id',
+        return $this->hasManyThrough(ComposerElement::class, ProductComposer::class,
+        'product_id',
+		'composer_id',
 		'product_id',
 		'composer_id');
+    }
+
+    public function OfferComposerElements(): MorphMany
+    {
+        return $this->morphMany(OfferComposerElement::class, 'model');
     }
 }

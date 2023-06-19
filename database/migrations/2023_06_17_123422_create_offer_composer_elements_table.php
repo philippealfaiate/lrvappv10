@@ -1,8 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Offer;
+use App\Models\ComposerElement;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -11,10 +13,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('offer_composer_element', function (Blueprint $table) {
+        Schema::create('offer_composer_elements', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Offer::class);
             $table->foreignIdFor(ComposerElement::class);
+            $table->morphs('model');
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('offer_composer_element');
+        Schema::dropIfExists('offer_composer_elements');
     }
 };

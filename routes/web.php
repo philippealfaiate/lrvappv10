@@ -31,4 +31,5 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 require __DIR__.'/mkd/product.php';
+require __DIR__.'/mkd/offer.php';
 require __DIR__.'/mkd/composer.php';

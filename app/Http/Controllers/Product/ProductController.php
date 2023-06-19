@@ -75,7 +75,7 @@ class ProductController extends Controller
                     'route' => route('products.offers.index', $resource->id),
                 ],
                 'composers' => [
-                    'route' => null,
+                    'route' => route('products.composers.index', $resource->id),
                 ],
             ]
         ]);

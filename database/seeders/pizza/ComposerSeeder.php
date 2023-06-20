@@ -2,33 +2,41 @@
 
 namespace Database\Seeders\Pizza;
 
-use App\Models\Composer;
-use App\Models\Product;
+use Database\Seeders\SeederHelperTrait;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class ComposerSeeder extends Seeder
 {
+    use SeederHelperTrait;
+
     /**
      * Run the database seeds.
      */
     public function run(): void
-    {
-        // $composer = Composer::factory()
-        // ->state([
-        //     'name' => 'pizza sauce'
-        //     ])
-        // ->create();
-        
-        $this->composerCreate([
+    {        
+        $composer = $this->composerSeed([
             'name' => 'pizza sauce',
             'type' => \App\Models\Product::class,
-        ], [
+        ]);
+        collect([
             'sauce tomate',
             'creme fraiche',
+        ])->map(function ($element) use ($composer) {
+			$this->composerElementSeed($composer, $element);
+		});
+
+        //
+        $composer = $this->composerSeed([
+            'name' => 'topping',
+            'type' => \App\Models\Product::class,
         ]);
-
-
+        collect([
+            'mozza',
+            'bacon',
+        ])->map(function ($element) use ($composer) {
+			$this->composerElementSeed($composer, $element);
+		});
     }
 
 /*
@@ -47,13 +55,17 @@ class ComposerSeeder extends Seeder
 			]
 		);
      */
-    private function composerCreate(array $composer, array $items)
+    private function composerSeed(array $composer)
 	{
-		$composer = \App\Models\Composer::factory()->create($composer);
-		collect($items)->map(function ($item) use ($composer) {
-			$model = $composer->type::where('name', $item)->first();
-			$model->composerElements()->save(new \App\Models\ComposerElement(['composer_id' => $composer->id]));
-		});
+		return \App\Models\Composer::factory()->create($composer);
 	}
 
+    private function composerElementSeed(\Illuminate\Database\Eloquent\Model|array $composer, string $element)
+    {
+        if (is_array($composer))
+            $composer = $this->getResourceFor(\App\Models\Composer::class, $composer);
+
+            $model = $this->getResourceFor($composer->type, ['name' => $element]);
+            $model->composerElements()->save(new \App\Models\ComposerElement(['composer_id' => $composer->id]));
+    }
 }

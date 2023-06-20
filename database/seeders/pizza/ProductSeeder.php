@@ -78,5 +78,48 @@ class ProductSeeder extends Seeder
             'name' => 'creme fraiche'
         ])
         ->create();
+
+        /**
+         * 
+         */
+        Product::factory()
+        ->has(Offer::factory()
+            ->count(2)
+            ->sequence(
+                ['attribute' => 'First'],
+                ['attribute' => 'Second'],
+            )
+            ->state(function (array $attributes, Product $product) {
+                return [
+                    'name' => $product->name,
+                ];
+            })
+        )
+        ->state([
+            'name' => 'mozza'
+        ])
+        ->create();
+
+
+        /**
+         * 
+         */
+        Product::factory()
+        ->has(Offer::factory()
+            ->count(2)
+            ->sequence(
+                ['attribute' => 'First'],
+                ['attribute' => 'Second'],
+            )
+            ->state(function (array $attributes, Product $product) {
+                return [
+                    'name' => $product->name,
+                ];
+            })
+        )
+        ->state([
+            'name' => 'bacon'
+        ])
+        ->create();
     }
 }

@@ -23,13 +23,15 @@
                                             {{ gettype($resource->$column) }}
                                         @endif
                                     </td>
-                                    <td class="text-base text-slate-800 px-6 py-3">
+                                    <td class="text-base text-slate-800 _px-6 _py-3">
                                         @if ($resource->$column instanceof \Illuminate\Database\Eloquent\Collection)
                                             @includeFirst(['model.collections.' . $column, 'model.collections.collection'], ['data' => $resource->$column])
                                         @elseif ($resource->$column instanceof \Illuminate\Database\Eloquent\Model)
                                             @includeFirst(['model.resources.' . $column, 'model.resources.resource'], ['data' => $resource->$column])
                                         @else
-                                            {{ $resource->$column }}
+                                            <div class="px-6 py-3">
+                                                {{ $resource->$column }}
+                                            </div>
                                         @endif
                                     </td>
                                 </tr>

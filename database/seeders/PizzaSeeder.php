@@ -17,6 +17,7 @@ class PizzaSeeder extends Seeder
             \Database\Seeders\Pizza\AllergenSeeder::class,
             \Database\Seeders\Pizza\ComposerSeeder::class,
             \Database\Seeders\Pizza\ProductComposerSeeder::class,
+            \Database\Seeders\Pizza\OfferComposerElementSeeder::class,
         ]);
     }
 }

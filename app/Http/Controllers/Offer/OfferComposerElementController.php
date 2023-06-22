@@ -15,11 +15,15 @@ class OfferComposerElementController extends Controller
      */
     public function index($product, Offer $offer, $composer)
     {
-        // return $offer->OfferComposerElements;
+        return OfferComposerElement::with('morphable')->whereOfferId($offer->id)->get();
+        return $offer->OfferComposerElements;
 
         // return $offer->composerElements()
         //     ->join('offer_composer_elements', 'offer_composer_elements.composer_element_id', '=', 'composer_elements.id')
         //     ->get();
+
+        return $offer->composers->load('composerElements.morphable.offers');
+        // return $offer->composers->load('composerElements', 'composerElements.morphable', 'composerElements.morphable.offers');
 
         return ComposerElement::with('morphable')->where('composer_id', $composer)
                 ->join('offer_composer_elements', 'offer_composer_elements.composer_element_id', '=', 'composer_elements.id')
